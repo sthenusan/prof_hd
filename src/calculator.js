@@ -1,3 +1,4 @@
+const logger = require("./logger");
 module.exports.add = (req, res) => {
   const num1 = parseFloat(req.query.num1);
   const num2 = parseFloat(req.query.num2);

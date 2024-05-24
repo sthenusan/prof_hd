@@ -1,0 +1,79 @@
+pipeline {
+    agent any
+
+    environment {
+        // Define any environment variables needed
+        DOCKER_IMAGE = 'your-docker-image-name'
+        SONARQUBE_SERVER = 'http://sonarqube-server:9000' // Update with your SonarQube server URL
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/your-repo/project.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                script {
+                    sh 'npm install'
+                    sh 'npm run build'
+                    archiveArtifacts artifacts: 'build/**', fingerprint: true
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                script {
+                    sh 'npm test'
+                    junit 'reports/**/*.xml'
+                }
+            }
+        }
+
+        stage('Code Quality Analysis') {
+            steps {
+                script {
+                    withSonarQubeEnv('MySonarQubeServer') {
+                        sh 'sonar-scanner'
+                    }
+                }
+            }
+        }
+
+        stage('Deploy to Test Environment') {
+            steps {
+                script {
+                    // Example deployment using Docker
+                    sh 'docker-compose down' // Ensure any existing containers are stopped
+                    sh 'docker-compose up -d --build'
+                }
+            }
+        }
+
+        stage('Monitoring and Alerting') {
+            steps {
+                script {
+                    // Example for basic monitoring
+                    sh 'echo "Implement monitoring script here"'
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
+        }
+
+        success {
+            echo 'Build succeeded!'
+        }
+
+        failure {
+            echo 'Build failed!'
+        }
+    }
+}

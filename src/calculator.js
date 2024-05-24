@@ -101,3 +101,14 @@ module.exports.modulo = (req, res) => {
   logger.info(`New modulo operation requested: ${num1} % ${num2}`);
   res.json({ result });
 };
+
+module.exports.healthCheck = (req, res) => {
+  logger.info("Health checkup requested");
+
+  res.json({
+    status: "ok",
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    message: "Service is up and running",
+  });
+};

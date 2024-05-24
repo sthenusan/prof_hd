@@ -8,6 +8,7 @@ const {
   exponentiate,
   sqrt,
   modulo,
+  healthCheck,
 } = require("./calculator");
 
 router.get("/add", add);
@@ -17,5 +18,6 @@ router.get("/divide", divide);
 router.get("/exponentiate", exponentiate);
 router.get("/sqrt", sqrt);
 router.get("/modulo", modulo);
+router.get("/health", healthCheck);
 
 module.exports = router;

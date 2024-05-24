@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/your-repo/project.git'
+                git 'https://github.com/sthenusan/prof_hd.git'
             }
         }
 
@@ -56,8 +56,11 @@ pipeline {
         stage('Monitoring and Alerting') {
             steps {
                 script {
-                    // Example for basic monitoring
-                    sh 'echo "Implement monitoring script here"'
+                    // Example alerting script (replace with your custom logic)
+                    def response = sh(script: 'curl -s http://your-application:your-port/health', returnStatus: true)
+                    if (response != 0) {
+                        error 'Health check failed!'
+                    }
                 }
             }
         }
@@ -75,5 +78,8 @@ pipeline {
         failure {
             echo 'Build failed!'
         }
+    }
+    triggers {
+        pollSCM('*/1 * * * *') // Poll the SCM (GitHub) every minute
     }
 }

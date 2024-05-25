@@ -47,11 +47,13 @@ pipeline {
 
         stage('Monitoring and Alerting') {
             steps {
+                script {
                     // Example alerting script (replace with your custom logic)
-                    // def response = sh(script: 'curl -s http://your-application:your-port/health', returnStatus: true)
-                    // if (response != 0) {
-                    //     error 'Health check failed!'
-                    // }
+                    def response = sh(script: 'curl -s http://your-application:your-port/health', returnStatus: true)
+                    if (response != 0) {
+                        error 'Health check failed!'
+                    }
+                }
             }
         }
     }

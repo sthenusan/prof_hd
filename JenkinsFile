@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
                     sh 'npm test'
-                    junit 'reports/**/*.xml'
+                    sh 'kill $(lsof -t -i:3000)
                 }
             }
         }

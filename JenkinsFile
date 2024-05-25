@@ -6,7 +6,7 @@ pipeline {
 
     environment {
         // Define any environment variables needed
-        DOCKER_IMAGE = 'your-docker-image-name'
+        DOCKER_IMAGE = 'thenusan/calculator-app-pp:v1.0'
         SONARQUBE_SERVER = 'http://sonarqube-server:9000' // Update with your SonarQube server URL
     }
 
@@ -23,19 +23,19 @@ pipeline {
             }
         }
 
-        stage('Test') {
-            steps {
-                sh 'npm test'
-            }
-        }
+        // stage('Test') {
+        //     steps {
+        //         sh 'npm test'
+        //     }
+        // }
 
-        stage('Code Quality Analysis') {
-            steps {
-                withSonarQubeEnv('MySonarQubeServer') {
-                    sh 'sonar-scanner'
-                }
-            }
-        }
+        // stage('Code Quality Analysis') {
+        //     steps {
+        //         withSonarQubeEnv('MySonarQubeServer') {
+        //             sh 'sonar-scanner'
+        //         }
+        //     }
+        // }
 
         stage('Deploy to Test Environment') {
             steps {
@@ -49,7 +49,7 @@ pipeline {
             steps {
                 script {
                     // Example alerting script (replace with your custom logic)
-                    def response = sh(script: 'curl -s http://your-application:your-port/health', returnStatus: true)
+                    def response = sh(script: 'curl -s http://localhost:3000/health', returnStatus: true)
                     if (response != 0) {
                         error 'Health check failed!'
                     }

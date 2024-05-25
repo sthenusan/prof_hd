@@ -19,49 +19,39 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                timeout(time: 1, unit: 'MINUTES') {
-                    sh 'npm install'
-                }
+                sh 'npm install'
             }
         }
 
         stage('Test') {
             steps {
-                timeout(time: 1, unit: 'MINUTES') {
-                    sh 'npm test'
-                }
+                sh 'npm test'
             }
         }
 
         stage('Code Quality Analysis') {
             steps {
-                timeout(time: 2, unit: 'MINUTES') {
-                    withSonarQubeEnv('MySonarQubeServer') {
-                        sh 'sonar-scanner'
-                    }
+                withSonarQubeEnv('MySonarQubeServer') {
+                    sh 'sonar-scanner'
                 }
             }
         }
 
         stage('Deploy to Test Environment') {
             steps {
-                timeout(time: 5, unit: 'MINUTES') {
                     // Example deployment using Docker
                     sh 'docker-compose down' // Ensure any existing containers are stopped
                     sh 'docker-compose up -d --build'
-                }
             }
         }
 
         stage('Monitoring and Alerting') {
             steps {
-                timeout(time: 5, unit: 'MINUTES') {
                     // Example alerting script (replace with your custom logic)
                     def response = sh(script: 'curl -s http://your-application:your-port/health', returnStatus: true)
                     if (response != 0) {
                         error 'Health check failed!'
                     }
-                }
             }
         }
     }

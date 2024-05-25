@@ -30,7 +30,6 @@ pipeline {
             steps {
                 script {
                     sh 'npm test'
-                    sh 'kill $(lsof -t -i:3000)
                 }
             }
         }

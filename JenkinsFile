@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'node:14' // Use the appropriate Node.js version
+            args '-u root' // Run as root user if necessary
+        }
+    }
 
     environment {
         // Define any environment variables needed

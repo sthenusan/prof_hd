@@ -21,8 +21,10 @@ pipeline {
             steps {
                 script {
                     sh 'npm install'
-                    sh 'node src/app.js'
-                    archiveArtifacts artifacts: 'build/**', fingerprint: true
+                    def serverStart = sh(script: 'node src/app.js', returnStatus: true)
+                    if (serverStart != 0) {
+                        error 'Failed to start the server!'
+                    }
                 }
             }
         }

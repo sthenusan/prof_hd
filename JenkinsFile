@@ -41,7 +41,7 @@ pipeline {
         stage('Deploy to Test Environment') {
             steps {
                     // Example deployment using Docker
-                    sh 'docker-compose down' // Ensure any existing containers are stopped
+                    //sh 'docker-compose down' // Ensure any existing containers are stopped
                     sh 'docker-compose up -d --build'
             }
         }

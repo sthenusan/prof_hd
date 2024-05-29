@@ -1,9 +1,6 @@
 pipeline {
     agent {
-        docker {
-            image 'node:14' // Use a Docker image with Node.js installed
-            args '-v /var/run/docker.sock:/var/run/docker.sock' // Mount Docker socket to allow Docker commands
-        }
+        dockerfile true
     }
     tools {
         nodejs '10.5.0'
@@ -52,7 +49,7 @@ pipeline {
             steps {
                 script {
                     sh 'echo "version: \'3\'\nservices:\n  app:\n    build: .\n    ports:\n      - \"3000:3000\"\n" > docker-compose.yml'
-                    //sh 'docker-compose down' // Ensure any existing containers are stopped
+                    sh 'docker-compose down' // Ensure any existing containers are stopped
                     sh 'docker-compose up -d --build'
                     sleep time: 30, unit: 'SECONDS' // Wait for the server to start
                 }

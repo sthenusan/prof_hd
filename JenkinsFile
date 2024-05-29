@@ -11,17 +11,17 @@ pipeline {
     }
 
     stages {
-        // stage('Checkout') {
-        //     steps {
-        //         git branch: 'dev', url: 'https://github.com/sthenusan/prof_hd.git'
-        //     }
-        // }
+        stage('Checkout') {
+            steps {
+                git branch: 'dev', url: 'https://github.com/sthenusan/prof_hd.git'
+            }
+        }
 
-        // stage('Install Dependencies') {
-        //     steps {
-        //         sh 'npm install'
-        //     }
-        // }
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
 
         // stage('Test') {
         //     steps {

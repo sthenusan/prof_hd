@@ -52,7 +52,7 @@ pipeline {
             steps {
                 script {
                     sh 'echo "version: \'3\'\nservices:\n  app:\n    build: .\n    ports:\n      - \"3000:3000\"\n" > docker-compose.yml'
-                    sh 'docker-compose down' // Ensure any existing containers are stopped
+                    //sh 'docker-compose down' // Ensure any existing containers are stopped
                     sh 'docker-compose up -d --build'
                     sleep time: 30, unit: 'SECONDS' // Wait for the server to start
                 }

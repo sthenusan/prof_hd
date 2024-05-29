@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000" # Adjust the ports as needed
+    environment:
+      NODE_ENV: development # Set any environment variables you need
+    volumes:
+      - .:/usr/src/app
+    command: npm start # Replace with the command to start your app

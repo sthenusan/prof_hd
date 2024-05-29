@@ -1,8 +1,8 @@
 pipeline {
     agent {
         docker {
-            image 'thenusan/calculator-app-pp:v1.0' // Use a Docker image that includes Docker CLI
-            args '-v /var/run/docker.sock:/var/run/docker.sock' // Mount Docker socket
+            image 'node:14' // Use a Docker image with Node.js installed
+            args '-v /var/run/docker.sock:/var/run/docker.sock' // Mount Docker socket to allow Docker commands
         }
     }
     tools {
@@ -27,6 +27,11 @@ pipeline {
                 sh 'npm install'
             }
         }
+        // stage('Build') {
+        //     steps {
+        //         sh 'npm run build'
+        //     }
+        // }
 
         // stage('Test') {
         //     steps {
@@ -45,9 +50,12 @@ pipeline {
 
         stage('Deploy to Test Environment') {
             steps {
-                    // Example deployment using Docker
-                    //sh 'docker-compose down' // Ensure any existing containers are stopped
+                script {
+                    sh 'echo "version: \'3\'\nservices:\n  app:\n    build: .\n    ports:\n      - \"3000:3000\"\n" > docker-compose.yml'
+                    sh 'docker-compose down' // Ensure any existing containers are stopped
                     sh 'docker-compose up -d --build'
+                    sleep time: 30, unit: 'SECONDS' // Wait for the server to start
+                }
             }
         }
 
@@ -66,6 +74,10 @@ pipeline {
 
     post {
         always {
+            script {
+                // Stop the Node.js server if it's running
+                sh 'docker-compose down'
+            }
             cleanWs()
         }
 

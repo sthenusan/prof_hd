@@ -11,32 +11,32 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                git branch: 'dev', url: 'https://github.com/sthenusan/prof_hd.git'
-            }
-        }
+        // stage('Checkout') {
+        //     steps {
+        //         git branch: 'dev', url: 'https://github.com/sthenusan/prof_hd.git'
+        //     }
+        // }
 
-        stage('Install Dependencies') {
-            steps {
-                sh 'npm install'
-            }
-        }
+        // stage('Install Dependencies') {
+        //     steps {
+        //         sh 'npm install'
+        //     }
+        // }
 
-        stage('Test') {
-            steps {
-                    sh './jenkins/scripts/deliver.sh'
-                    sh './jenkins/scripts/kill.sh'
-            }
-        }
+        // stage('Test') {
+        //     steps {
+        //             sh './jenkins/scripts/deliver.sh'
+        //             sh './jenkins/scripts/kill.sh'
+        //     }
+        // }
 
-        stage('Code Quality Analysis') {
-            steps {
-                withSonarQubeEnv('MySonarQubeServer') {
-                    sh 'sonar-scanner'
-                }
-            }
-        }
+        // stage('Code Quality Analysis') {
+        //     steps {
+        //         withSonarQubeEnv('MySonarQubeServer') {
+        //             sh 'sonar-scanner'
+        //         }
+        //     }
+        // }
 
         stage('Deploy to Test Environment') {
             steps {
